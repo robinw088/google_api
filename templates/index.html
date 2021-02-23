@@ -1,0 +1,45 @@
+{% include "header.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+<!-- Portfolio Section-->
+
+
+<header class="masthead">
+    <div class="container d-flex align-items-center flex-column">
+        <form method="POST" action="/" enctype="multipart/form-data">
+            {{ form.csrf_token }}
+            {{ form.pdf.label }}<br>
+            {{ form.pdf(size=35) }} <br>
+            {{ form.submit }}
+            {{ form.recaptcha }}
+
+            {% if form.pdf.errors %}
+            <ul class="errors">
+                {% for error in form.pdf.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+
+
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <ul class=flashes>
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% endwith %}
+
+        </form>
+        {% if audio %}
+        <audio controls>
+          <source src="{{ url_for('static', filename =audiofile) }}" type="audio/mpeg">
+        Your browser does not support the audio element.
+        </audio>
+        {% endif %}
+
+
+    </div>
+</header>
+{% include "footer.html" %}
